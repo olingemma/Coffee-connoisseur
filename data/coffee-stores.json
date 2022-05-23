@@ -1,0 +1,18 @@
+[
+	{
+		"id":0,
+		"name":"StangeLove coffee",
+		"imgUrl":"https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+		"websiteUrl":"https://www.stanglovecoffee.ca/",
+		"address":"983 Queen St E, Toronto, ON M4M 1K2",
+		"neighbourhood":"at King and Spadina"
+	},
+	{
+		"id":1,
+		"name":"Dark Horse Coffee",
+		"imgUrl":"https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+		"websiteUrl":"https://www.darkhorseespresso.com/",
+		"address":"401 Richmond St w",
+		"neighbourhood":"Richmond and Spadina"
+	}
+]
