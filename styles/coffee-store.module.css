@@ -40,6 +40,17 @@
   border-radius: .5rem;
 }
 
+.fab{
+  background-color: var(--text-black);
+}
+.fab  a{
+  color:#fff
+}
+
+.fab:hover{
+  background-color: goldenrod;
+}
+
 .upvoteButton{
   cursor: pointer;
   border:0;

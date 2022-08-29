@@ -4,45 +4,33 @@ import styles from '../styles/Home.module.css'
 import Banner from "../components/banner";
 import Card from "../components/card";
 import coffeeStoreData from "../data/coffee-stores.json";
-import axios from "axios";
+import fetchCoffeeStores from "../data/apiFetch";
+import {Grid} from "@mui/material";
+import useTrackLocation from "../hooks/use-track-location";
+import {useState,useEffect} from "react";
+
 
 export async function getStaticProps(context){
-	
+	let data = await fetchCoffeeStores();
 
-const options = {
-  method: 'GET',
-  url: 'https://api.foursquare.com/v3/places/search',
-  params: {
-    query: 'coffee',
-    ll: '43.72284,-79.46351',
-    radius: '5000',
-    categories: '13034'
-  },
-  headers: {
-    Accept: 'application/json',
-    Authorization: 'fsq3sTs+SsEY3RyPpi4Yb8B10quK+LpUZXEcVLHpE9yBAcY='
-  }
-};
-
-let data=await axios.request(options).then(function (response) {
-  return response.data
-}).catch(function (error) {
-  console.error(error);
-});
-console.log(data.results.length);
 	return {
 		props:{
-			coffeeStores:data.results
+			coffeeStores:data
 		}
 	}
 };
 export default function Home(props) {
-	console.log(props)
-	const handleOnClick= ()=>{
-		console.log(props)
-		console.log(coffeeStoreData)
+	
+	const {handleTrackLocation,latLong,locationErrorMsg,isFindingLocation}= useTrackLocation();
 
+	
+
+	const handleOnClick= ()=>{
+		console.log("hi banner button");
+		console.log({latLong,locationErrorMsg});
+		handleTrackLocation();
 	}
+
   return (
     <div className={styles.container}>
       <Head>
@@ -52,25 +40,33 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
-	  		<Banner  buttonText="View stores nearby" handleClick={handleOnClick}/>
+	  		<Banner  buttonText={isFindingLocation?"locating...":"View stores nearby"} handleClick={handleOnClick}/>
+				{locationErrorMsg!==""&&`Something went wrong:${locationErrorMsg}`}
 				<div className={styles.heroImage}>
 					<Image src="/static/hero.png" width={200} height={200} alt="hero image"/>
 				</div>
 			<h2 className={styles.heading2}>Toronto stores</h2>
 
-				<div className={styles.cardLayout}>
-					{props.coffeeStores.map(store=>{
+				
+					<Grid container spacing={5}>
+						{props.coffeeStores.map((store,index)=>{
 						return(
-						<Card
+						<Grid item xs={6} md={4} key={index}>	
+						<Card 
 						className={styles.card}
 						key={store.fsq_id}
 						name={store.name}
-						imgUrl="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-						href={`/coffee-store/${store.fsq_id}`}
-						/>)
+						imgUrl={store.imgUrl}
+						href={`/coffee-store/${store.name}`}
+						/>
+						</Grid>
+						
+						)
 					})}
+					</Grid>
+					
 
-				</div>
+				
       </main>
 
 
